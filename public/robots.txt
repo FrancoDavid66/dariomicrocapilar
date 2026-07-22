@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /src/
+Disallow: /assets/
+Sitemap: https://www.dariomicrocapilar.com.ar/sitemap.xml
