@@ -1,8 +1,6 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaWhatsapp } from 'react-icons/fa';
-import Particles from 'react-tsparticles';
-import { loadFull } from 'tsparticles';
 import bg_logo from '../assets/images/icono_dorado.webp';
 import { RxCross2 } from 'react-icons/rx';
 
@@ -137,10 +135,6 @@ function ServiceCard({ serv, index, activo, onSelect }) {
 export default function Services() {
   const [servicioActivo, setServicioActivo] = useState(null);
 
-  const particlesInit = async (main) => {
-    await loadFull(main);
-  };
-
   return (
     <section
       id="servicios"
@@ -166,24 +160,20 @@ export default function Services() {
         loading="lazy"
       />
 
-      {/* Partículas doradas */}
-      <Particles
-        id="tsparticles"
-        init={particlesInit}
-        options={{
-          fullScreen: { enable: false },
-          background: { color: 'transparent' },
-          particles: {
-            number: { value: 50 },
-            size: { value: 3 },
-            color: { value: '#D4A34A' },
-            opacity: { value: 0.5 },
-            move: { enable: true, speed: 0.4 },
-            links: { enable: true, color: '#D4A34A', opacity: 0.25 },
-          },
-        }}
-        className="absolute inset-0 z-0"
-      />
+      {/* Fondo dorado ambiental (CSS liviano, reemplaza tsparticles) */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        {/* Patrón de puntos dorados sutil */}
+        <div
+          className="absolute inset-0 opacity-[0.15]"
+          style={{
+            backgroundImage: 'radial-gradient(#D4A34A 1px, transparent 1px)',
+            backgroundSize: '32px 32px',
+          }}
+        />
+        {/* Blobs dorados que respiran */}
+        <div className="absolute -top-24 -left-24 w-[420px] h-[420px] gold-halo blur-[100px] opacity-30 animate-floaty" />
+        <div className="absolute bottom-[-8rem] right-[-6rem] w-[380px] h-[380px] gold-halo blur-[100px] opacity-25 animate-drift" />
+      </div>
 
       {/* Título */}
       <div className="max-w-3xl mx-auto text-center mb-16 relative z-10">
