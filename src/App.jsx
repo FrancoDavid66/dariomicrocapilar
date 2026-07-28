@@ -1,11 +1,12 @@
-import React, { Suspense, lazy } from 'react';
+import { Suspense, lazy } from 'react';
 
 // Componentes esenciales cargados al inicio
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Loader from './components/Loader';
+import LazySection from './components/LazySection';
 
-// Componentes diferidos (lazy)
+// Componentes diferidos (lazy — se cargan por scroll)
 const Hero = lazy(() => import('./components/Hero'));
 const About = lazy(() => import('./components/About'));
 const Services = lazy(() => import('./components/Services'));
@@ -28,49 +29,51 @@ const App = () => {
       </header>
 
       <main className="bg-fondo text-texto font-sans">
-        <Suspense fallback={<div className="min-h-[60vh] flex justify-center items-center">Cargando inicio...</div>}>
+        {/* Hero carga de una (primera pantalla / LCP) */}
+        <Suspense fallback={<div className="min-h-screen bg-fondo" />}>
           <Hero />
         </Suspense>
 
-        <Suspense fallback={<div className="min-h-[40vh] flex justify-center items-center">Cargando sobre mí...</div>}>
+        {/* El resto monta solo cuando se acerca en el scroll */}
+        <LazySection minHeight={520}>
           <About />
-        </Suspense>
+        </LazySection>
 
-        <Suspense fallback={<div className="min-h-[40vh] flex justify-center items-center">Cargando antes y después...</div>}>
+        <LazySection minHeight={600}>
           <BeforeAfter />
-        </Suspense>
+        </LazySection>
 
-        <Suspense fallback={<div className="min-h-[40vh] flex justify-center items-center">Cargando servicios...</div>}>
+        <LazySection minHeight={600}>
           <Services />
-        </Suspense>
+        </LazySection>
 
-        <Suspense fallback={<div className="min-h-[40vh] flex justify-center items-center">Cargando pigmento...</div>}>
+        <LazySection minHeight={700}>
           <Pigmento />
-        </Suspense>
+        </LazySection>
 
-        <Suspense fallback={<div className="min-h-[40vh] flex justify-center items-center">Cargando galería...</div>}>
+        <LazySection minHeight={400}>
           <Gallery />
-        </Suspense>
+        </LazySection>
 
-        <Suspense fallback={<div className="min-h-[40vh] flex justify-center items-center">Cargando resultados reales...</div>}>
+        <LazySection minHeight={400}>
           <RealClientGallery />
-        </Suspense>
+        </LazySection>
 
-        <Suspense fallback={<div className="min-h-[40vh] flex justify-center items-center">Cargando video...</div>}>
+        <LazySection minHeight={600}>
           <VideoTrabajo />
-        </Suspense>
+        </LazySection>
 
-        <Suspense fallback={<div className="min-h-[40vh] flex justify-center items-center">Cargando procedimiento...</div>}>
+        <LazySection minHeight={600}>
           <Procedure />
-        </Suspense>
+        </LazySection>
 
-        <Suspense fallback={<div className="min-h-[40vh] flex justify-center items-center">Cargando preguntas frecuentes...</div>}>
+        <LazySection minHeight={500}>
           <FAQ />
-        </Suspense>
+        </LazySection>
 
-        <Suspense fallback={<div className="min-h-[40vh] flex justify-center items-center">Cargando contacto...</div>}>
+        <LazySection minHeight={700}>
           <Contact />
-        </Suspense>
+        </LazySection>
 
         <Footer />
       </main>
