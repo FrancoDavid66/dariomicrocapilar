@@ -26,7 +26,7 @@ export default function Hero() {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen bg-fondo text-ink flex items-center justify-center px-6 overflow-hidden"
+      className="relative min-h-screen bg-fondo text-ink flex items-center justify-center px-6 pt-28 pb-16 md:pt-24 md:pb-0 overflow-hidden"
       aria-label="Sección principal de micropigmentación capilar en Buenos Aires"
     >
       {/* 🎥 Video de fondo solo en desktop */}
