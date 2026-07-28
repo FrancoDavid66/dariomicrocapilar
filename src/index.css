@@ -2,4 +2,135 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   FIX autofill — evita que el navegador pinte los inputs de blanco
+   ============================================================ */
+.form-input:-webkit-autofill,
+.form-input:-webkit-autofill:hover,
+.form-input:-webkit-autofill:focus,
+.form-input:-webkit-autofill:active {
+  -webkit-text-fill-color: #F5F3EE !important;
+  -webkit-box-shadow: 0 0 0 1000px #1C1C1F inset !important;
+  box-shadow: 0 0 0 1000px #1C1C1F inset !important;
+  caret-color: #F5F3EE;
+  transition: background-color 9999s ease-in-out 0s;
+}
 
+/* ============================================================
+   BASE GLOBAL — Rediseño Dariomicrocapilar
+   ============================================================ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: #0A0A0B;
+    color: #F5F3EE;
+    font-family: "Inter", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5 {
+    font-family: "Poppins", sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  /* Selección de texto dorada */
+  ::selection {
+    background: rgba(212, 163, 74, 0.28);
+    color: #F5F3EE;
+  }
+}
+
+/* ============================================================
+   SCROLLBAR personalizada (dorada sobre oscuro)
+   ============================================================ */
+@layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #B8860B #141416;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0A0A0B;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #D4A34A, #B8860B);
+    border-radius: 100px;
+    border: 2px solid #0A0A0B;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #EBCB86;
+  }
+}
+
+/* ============================================================
+   UTILIDADES REUTILIZABLES del rediseño
+   ============================================================ */
+@layer components {
+  /* Texto con gradiente dorado (igual que el logo) */
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #EBCB86, #B8860B);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* Tarjeta glass (glassmorphism sutil) */
+  .glass {
+    background: rgba(20, 20, 22, 0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+  }
+
+  /* Halo dorado ambiental (para fondos de sección) */
+  .gold-halo {
+    background: radial-gradient(circle, rgba(212, 163, 74, 0.16), transparent 65%);
+  }
+}
+
+/* ============================================================
+   REVEAL on-scroll — clase base (se activa con .is-visible via JS/IntersectionObserver)
+   ============================================================ */
+@layer utilities {
+  .reveal {
+    opacity: 0;
+    transform: translateY(34px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ============================================================
+   ACCESIBILIDAD — respetar reduce motion
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

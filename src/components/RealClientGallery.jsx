@@ -1,181 +1,188 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight, FaTimes } from 'react-icons/fa';
+import { IoIosArrowDown } from 'react-icons/io';
 import AnimatedCTAButton from './AnimatedCTAButton';
 
-// Imágenes reales de clientes
-import client_1 from '../assets/images/gallery/realclients/micro_caso_1_1.webp';
-import client_2 from '../assets/images/gallery/realclients/micro_caso_1_2.webp';
-import client_3 from '../assets/images/gallery/realclients/micro_caso_1_3.webp';
-import client_4 from '../assets/images/gallery/realclients/micro_caso_1_4.webp';
-import client_5 from '../assets/images/gallery/realclients/micro_caso_1_4.webp';
-import client_6 from '../assets/images/gallery/realclients/micro_caso_2.webp';
-import client_7 from '../assets/images/gallery/realclients/micro_caso_2_2.jpg';
-import client_8 from '../assets/images/gallery/realclients/micro_caso_3.jpg';
-import client_9 from '../assets/images/gallery/realclients/micro_caso_3_2.jpg';
-import client_10 from '../assets/images/gallery/realclients/micro_caso_4.webp';
-import client_11 from '../assets/images/gallery/realclients/micro_caso_4_2.webp';
+// 📸 Fotos reales de trabajos de Dario
+import trabajo_1 from '../assets/images/imagen_1.webp';
+import trabajo_2 from '../assets/images/imagen_2.webp';
+import trabajo_3 from '../assets/images/imagen_5.webp';
+import trabajo_4 from '../assets/images/imagen_6.webp';
+import trabajo_5 from '../assets/images/imagen_8_despues.webp';
+import trabajo_6 from '../assets/images/imagen_7_antes.webp';
 
-const clientImages = [
-  { url: client_1, category: 'Cliente 1' },
-  { url: client_2, category: 'Cliente 1' },
-  { url: client_3, category: 'Cliente 1' },
-  { url: client_4, category: 'Cliente 1' },
-  { url: client_5, category: 'Cliente 1' },
-  { url: client_6, category: 'Cliente 2' },
-  { url: client_7, category: 'Cliente 2' },
-  { url: client_8, category: 'Cliente 3' },
-  { url: client_9, category: 'Cliente 3' },
-  { url: client_10, category: 'Cliente 4' },
-  { url: client_11, category: 'Cliente 4' },
+const trabajos = [
+  { url: trabajo_1 },
+  { url: trabajo_2 },
+  { url: trabajo_5 },
+  { url: trabajo_4 },
+  { url: trabajo_3 },
+  { url: trabajo_6 },
 ];
 
-const RealClientGallery = () => {
-  const [activeImage, setActiveImage] = useState(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [openGroups, setOpenGroups] = useState({});
+export default function RealClientGallery() {
+  const [activa, setActiva] = useState(null);
+  const [indice, setIndice] = useState(0);
+  const [abierto, setAbierto] = useState(false);
 
-  const openImage = (index) => {
-    setActiveIndex(index);
-    setActiveImage(clientImages[index]);
+  const abrir = (i) => {
+    setIndice(i);
+    setActiva(trabajos[i]);
   };
-
-  const nextImage = () => {
-    const next = (activeIndex + 1) % clientImages.length;
-    setActiveIndex(next);
-    setActiveImage(clientImages[next]);
+  const cerrar = () => setActiva(null);
+  const siguiente = () => {
+    const n = (indice + 1) % trabajos.length;
+    setIndice(n);
+    setActiva(trabajos[n]);
   };
-
-  const prevImage = () => {
-    const prev = (activeIndex - 1 + clientImages.length) % clientImages.length;
-    setActiveIndex(prev);
-    setActiveImage(clientImages[prev]);
+  const anterior = () => {
+    const p = (indice - 1 + trabajos.length) % trabajos.length;
+    setIndice(p);
+    setActiva(trabajos[p]);
   };
-
-  const toggleGroup = (category) => {
-    setOpenGroups((prev) => ({
-      ...prev,
-      [category]: !prev[category],
-    }));
-  };
-
-  const groupedCategories = [...new Set(clientImages.map((img) => img.category))];
 
   return (
-    <section id="real-clients" className="bg-[#111111] text-texto py-24 px-4">
-      <div className="max-w-3xl mx-auto text-center mb-10">
-        <h2 className="text-3xl font-heading text-dorado mb-2">
-          Resultados reales de nuestros clientes
-        </h2>
-        <p className="text-gray-400 text-sm">
-          Transformaciones auténticas sin filtros. Confianza, precisión y resultados visibles.
-        </p>
-      </div>
+    <section
+      id="galeria"
+      className="relative bg-fondo text-ink py-24 px-6 overflow-hidden"
+      aria-label="Trabajos reales de Dariomicrocapilar"
+    >
+      {/* halo ambiental */}
+      <div className="pointer-events-none absolute -top-32 right-0 w-[460px] h-[460px] gold-halo blur-[90px] opacity-40" />
 
-      {groupedCategories.map((category) => {
-        const isOpen = openGroups[category];
-        return (
-          <div key={category} className="mb-6 border border-gray-700 rounded-xl overflow-hidden">
-            <button
-              onClick={() => toggleGroup(category)}
-              className="w-full flex justify-between items-center bg-[#1a1a1a] px-4 py-3 text-left text-sm font-medium text-dorado hover:bg-[#222]"
-            >
-              <span>{category}</span>
-              {isOpen ? <FaChevronUp /> : <FaChevronDown />}
-            </button>
+      <div className="relative z-10 max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true }}
+          className="text-center max-w-2xl mx-auto mb-12"
+        >
+          <p className="text-sm font-semibold tracking-[0.14em] uppercase text-dorado mb-3">
+            Trabajos reales
+          </p>
+          <h2 className="text-3xl md:text-5xl font-heading text-ink mb-4">
+            Trabajos reales, sin filtros
+          </h2>
+          <p className="text-ink-soft text-lg">
+            Cada foto es de un trabajo real de Dario. Resultados naturales de micropigmentación capilar.
+          </p>
+        </motion.div>
 
-            <AnimatePresence>
-              {isOpen && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="overflow-hidden px-4 pt-3 pb-4"
-                >
-                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-                    {clientImages
-                      .filter((img) => img.category === category)
-                      .map((img, index) => (
-                        <div
-                          key={index}
-                          className="relative overflow-hidden rounded-md border border-gray-700 cursor-pointer"
-                          onClick={() => openImage(clientImages.indexOf(img))}
-                        >
-                          <img
-                            src={img.url}
-                            alt={`Resultado real – ${img.category}`}
-                            loading="lazy"
-                            width={160}
-                            height={120}
-                            decoding="async"
-                            className="w-full h-auto object-cover"
-                          />
-                        </div>
-                      ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        );
-      })}
-
-      <AnimatePresence>
-        {activeImage && (
-          <motion.div
-            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            aria-modal="true"
-            role="dialog"
+        {/* Botón desplegable */}
+        <div className="flex justify-center mb-8">
+          <motion.button
+            onClick={() => setAbierto((v) => !v)}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="group inline-flex items-center gap-2.5 rounded-full border border-dorado/40 bg-dorado/5 px-6 py-3 text-dorado font-medium transition-all duration-300 hover:bg-dorado/10 hover:border-dorado/60 hover:shadow-gold"
+            aria-expanded={abierto}
+            aria-controls="grid-trabajos"
           >
-            <div className="relative w-full max-w-3xl mx-auto">
-              <motion.img
-                key={activeImage.url}
-                src={activeImage.url}
-                alt={`Zoom – ${activeImage.category}`}
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                transition={{ duration: 0.4 }}
-                className="rounded-xl w-full max-h-[80vh] object-contain shadow-2xl"
-              />
-              <button
-                className="absolute top-3 right-4 text-2xl text-gray-300 hover:text-dorado"
-                onClick={() => setActiveImage(null)}
-                aria-label="Cerrar imagen"
-              >
-                ×
-              </button>
-              <div className="absolute top-1/2 left-2 -translate-y-1/2">
-                <button onClick={prevImage} className="text-xl text-dorado" aria-label="Anterior">
+            {abierto ? 'Ocultar trabajos' : 'Ver trabajos reales'}
+            <IoIosArrowDown
+              className={`text-lg transition-transform duration-300 ${abierto ? 'rotate-180' : ''}`}
+            />
+          </motion.button>
+        </div>
+
+        {/* GRID masonry (plegable) */}
+        <AnimatePresence initial={false}>
+          {abierto && (
+            <motion.div
+              id="grid-trabajos"
+              key="grid"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="overflow-hidden"
+            >
+              <div className="columns-1 sm:columns-2 md:columns-3 gap-4 [column-fill:_balance] pt-2">
+                {trabajos.map((t, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, scale: 0.94 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
+                    onClick={() => abrir(i)}
+                    className="relative mb-4 break-inside-avoid cursor-pointer group overflow-hidden rounded-2xl border border-line"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && abrir(i)}
+                    aria-label="Ampliar trabajo real"
+                  >
+                    <img
+                      src={t.url}
+                      alt="Trabajo real de micropigmentación capilar de Dario"
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-fondo/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* LIGHTBOX */}
+        <AnimatePresence>
+          {activa && (
+            <motion.div
+              className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={cerrar}
+              aria-modal="true"
+              role="dialog"
+            >
+              <div className="relative w-full max-w-2xl mx-auto" onClick={(e) => e.stopPropagation()}>
+                <motion.img
+                  key={activa.url}
+                  src={activa.url}
+                  alt="Trabajo real de micropigmentación capilar"
+                  initial={{ scale: 0.94, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.94, opacity: 0 }}
+                  transition={{ duration: 0.35 }}
+                  className="rounded-2xl w-full max-h-[80vh] object-contain shadow-2xl"
+                />
+                <button
+                  onClick={cerrar}
+                  className="absolute -top-2 right-0 md:-right-2 w-11 h-11 rounded-full bg-surface border border-line text-ink flex items-center justify-center hover:text-dorado"
+                  aria-label="Cerrar"
+                >
+                  <FaTimes />
+                </button>
+                <button onClick={anterior}
+                  className="absolute top-1/2 -left-2 md:-left-14 -translate-y-1/2 w-11 h-11 rounded-full bg-surface border border-line text-dorado flex items-center justify-center hover:scale-110 transition"
+                  aria-label="Anterior">
                   <FaArrowLeft />
                 </button>
-              </div>
-              <div className="absolute top-1/2 right-2 -translate-y-1/2">
-                <button onClick={nextImage} className="text-xl text-dorado" aria-label="Siguiente">
+                <button onClick={siguiente}
+                  className="absolute top-1/2 -right-2 md:-right-14 -translate-y-1/2 w-11 h-11 rounded-full bg-surface border border-line text-dorado flex items-center justify-center hover:scale-110 transition"
+                  aria-label="Siguiente">
                   <FaArrowRight />
                 </button>
+                <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs text-ink-muted">
+                  {indice + 1} / {trabajos.length}
+                </div>
               </div>
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-xs text-gray-300">
-                {activeIndex + 1} de {clientImages.length}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-      <div className="w-full mt-10 flex justify-center">
-        <AnimatedCTAButton
-          text="Quiero resultados así"
-          href="https://wa.me/5491153227308?text=Hola%20Dario,%20vi%20los%20resultados%20reales%20de%20tus%20clientes%20y%20me%20gustaría%20saber%20más"
-        />
+        <div className="w-full mt-14 flex justify-center">
+          <AnimatedCTAButton
+            text="Quiero resultados así"
+            href="https://wa.me/5491153227308?text=Hola%20Dario,%20vi%20tus%20trabajos%20reales%20y%20me%20gustaría%20saber%20más"
+          />
+        </div>
       </div>
     </section>
   );
-};
-
-export default RealClientGallery;
+}
